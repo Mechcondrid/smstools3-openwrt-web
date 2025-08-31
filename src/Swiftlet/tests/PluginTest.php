@@ -3,12 +3,13 @@
 namespace Mock;
 
 require_once 'vendor/autoload.php';
+use PHPUnit\Framework\TestCase;
 
-class PluginTest extends \PHPUnit_Framework_TestCase
+class PluginTest extends TestCase
 {
 	protected $plugin;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->plugin = new Plugins\Mock;
 	}

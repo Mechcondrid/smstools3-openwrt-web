@@ -5,12 +5,13 @@ namespace Mock;
 require_once 'vendor/autoload.php';
 
 use \Mock\Libraries\Mock as MockLibrary;
+use PHPUnit\Framework\TestCase;
 
-class LibraryTest extends \PHPUnit_Framework_TestCase
+class LibraryTest extends TestCase
 {
 	protected $library;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->library = new MockLibrary;
 	}
