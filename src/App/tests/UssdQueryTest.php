@@ -10,8 +10,9 @@ namespace App\tests;
 
 
 use App\Libraries\UssdQuery;
+use PHPUnit\Framework\TestCase;
 
-class UssdQueryTest extends \PHPUnit_Framework_TestCase {
+class UssdQueryTest extends TestCase {
 
     private $param;
 
@@ -20,7 +21,7 @@ class UssdQueryTest extends \PHPUnit_Framework_TestCase {
      */
     private $ussdQuery;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->ussdQuery = new UssdQuery();
     }
@@ -44,7 +45,7 @@ class UssdQueryTest extends \PHPUnit_Framework_TestCase {
         $command = '*124#';
         $this->sendCommand($command);
         $pattern = str_replace('*','\\*',$command);
-        $this->assertRegExp('/\"AT\+CUSD=1, '.$pattern.' ,15\"/',
+        $this->assertMatchesRegularExpression('/\"AT\+CUSD=1, '.$pattern.' ,15\"/',
             $this->param,
             'Check if the send command exist in shell execute');
     }
@@ -58,14 +59,11 @@ class UssdQueryTest extends \PHPUnit_Framework_TestCase {
     }
 
 
-    /**
-     * @expectedException \Exception
-     */
     public function testGetRawUssdUCS2Exception()
     {
+        $this->expectException(\Exception::class);
         $array = $this->ussdQuery->getRawUssdUCS2();
     }
-
 
     public function testGetTextResult()
     {
@@ -82,13 +80,13 @@ class UssdQueryTest extends \PHPUnit_Framework_TestCase {
         $obj = json_decode($jsonMessage);
         //var_dump($obj);
 
-        $this->assertObjectHasAttribute('payload',$obj,'');
-        $this->assertObjectHasAttribute('message',$obj->payload,'');
-        $this->assertObjectHasAttribute('needReply',$obj->payload,'');
-        $this->assertObjectHasAttribute('error',$obj,'');
-        $this->assertObjectHasAttribute('success',$obj,'');
+        $this->assertObjectHasProperty('payload',$obj,'');
+        $this->assertObjectHasProperty('message',$obj->payload,'');
+        $this->assertObjectHasProperty('needReply',$obj->payload,'');
+        $this->assertObjectHasProperty('error',$obj,'');
+        $this->assertObjectHasProperty('success',$obj,'');
 
-        $this->assertAttributeNotEmpty('message',$obj->payload,'');
+        $this->assertNotEmpty($obj->payload->message);
         $this->assertTrue($obj->success,'Success attribute value should be true');
     }
 
@@ -98,10 +96,10 @@ class UssdQueryTest extends \PHPUnit_Framework_TestCase {
         $obj = json_decode($jsonMessage);
         //var_dump($obj);
 
-        $this->assertObjectHasAttribute('payload',$obj,'');
-        $this->assertObjectHasAttribute('exception',$obj->error,'');
-        $this->assertObjectHasAttribute('error',$obj,'');
-        $this->assertObjectHasAttribute('success',$obj,'');
+        $this->assertObjectHasProperty('payload',$obj,'');
+        $this->assertObjectHasProperty('exception',$obj->error,'');
+        $this->assertObjectHasProperty('error',$obj,'');
+        $this->assertObjectHasProperty('success',$obj,'');
 
         $this->assertFalse($obj->success,'Success attribute value should be false');
     }

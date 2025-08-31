@@ -3,12 +3,13 @@
 namespace Swiftlet;
 
 require_once 'vendor/autoload.php';
+use PHPUnit\Framework\TestCase;
 
-class ViewTest extends \PHPUnit_Framework_TestCase
+class ViewTest extends TestCase
 {
 	protected $view;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->view = new View();
 	}

@@ -39,7 +39,7 @@ abstract class Controller extends Common implements ControllerInterface
     /**
      * @param \Swiftlet\Interfaces\App $app
      */
-    public function __construct(AppInterface $app = null)
+    public function __construct(?AppInterface $app = null)
     {
         $this->app = $app;
     }

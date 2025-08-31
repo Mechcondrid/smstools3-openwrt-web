@@ -9,12 +9,13 @@
 namespace App\tests;
 use App\Libraries\Sms;
 use App\Models\SimpleMessaging;
+use PHPUnit\Framework\TestCase;
 
 require_once 'vendor/autoload.php';
 
 
 
-class SmsTest extends \PHPUnit_Framework_TestCase {
+class SmsTest extends TestCase {
     /**
      * @var Sms
      */
@@ -26,7 +27,7 @@ class SmsTest extends \PHPUnit_Framework_TestCase {
     protected $outboxDir;
     protected $templateDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->workingDir = getcwd().DIRECTORY_SEPARATOR."src".DIRECTORY_SEPARATOR."App".DIRECTORY_SEPARATOR."tests";
         $this->sentDir = $this->workingDir.DIRECTORY_SEPARATOR."sentDir";
@@ -40,7 +41,7 @@ class SmsTest extends \PHPUnit_Framework_TestCase {
             $this->templateDir);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         //clear outgoing directory
         array_map('unlink', glob($this->outboxDir.DIRECTORY_SEPARATOR."*"));
@@ -93,7 +94,7 @@ class SmsTest extends \PHPUnit_Framework_TestCase {
             ->setText('Hello there');
         $smsBody = $this->sms->compose($simpleMessaging);
         //check for string pattern that smsBody must have
-        $this->assertRegExp('/^To:\s\+\d+?\n\n[\s\S]{0,160}/', $smsBody);
+        $this->assertMatchesRegularExpression('/^To:\s\+\d+?\n\n[\s\S]{0,160}/', $smsBody);
     }
 
     public function testDeleteSentMessage()

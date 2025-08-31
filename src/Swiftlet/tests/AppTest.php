@@ -5,20 +5,21 @@ namespace Mock;
 require_once 'vendor/autoload.php';
 
 use \Mock\Controllers\Index as IndexController;
+use PHPUnit\Framework\TestCase;
 
-class AppTest extends \PHPUnit_Framework_TestCase
+class AppTest extends TestCase
 {
 	protected $app;
 
 	protected $view;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->view = new View;
 
 		$this->app = new App($this->view, 'Mock');
 
-		set_error_handler(array($this->app, 'error'), E_ALL | E_STRICT);
+		set_error_handler(array($this->app, 'error'), E_ALL);
 
 		date_default_timezone_set('UTC');
 	}
@@ -52,11 +53,9 @@ class AppTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($this->app->registerHook('test', new IndexController, new View), $this->app);
 	}
 
-	/**
-	 * @expectedException \ErrorException
-	 */
-	function testError()
-	{
-		$this->app->error(null, null, null, null);
-	}
+        function testError()
+        {
+                $this->expectException(\ErrorException::class);
+                $this->app->error(null, null, null, null);
+        }
 }

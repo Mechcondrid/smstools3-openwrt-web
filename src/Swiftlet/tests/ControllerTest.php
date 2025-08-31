@@ -5,14 +5,15 @@ namespace Mock;
 require_once 'vendor/autoload.php';
 
 use \Mock\Controllers\Index as IndexController;
+use PHPUnit\Framework\TestCase;
 
-class ControllerTest extends \PHPUnit_Framework_TestCase
+class ControllerTest extends TestCase
 {
 	protected $controller;
 
 	protected $view;
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->view       = new View;
 		$this->controller = new IndexController;
